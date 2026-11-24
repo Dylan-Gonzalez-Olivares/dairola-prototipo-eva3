@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chocolatería D'Airola — Prototipo eCommerce (INACAP)</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <!-- Aviso obligatorio de simulación académica -->
+  <div id="academic-banner" class="academic-banner" role="alert"></div>
+
+  <!-- Cabecera principal -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <button id="brand-home-btn" class="brand" type="button" aria-label="Volver al inicio">
+        <span class="brand-mark">D'A</span>
+        <span class="brand-text">
+          <strong>Chocolatería D'Airola</strong>
+          <small>Reñaca · Despacho Climatizado</small>
+        </span>
+      </button>
+
+      <!-- Validador rápido de cobertura (mejora PEOU y PU - TAM) -->
+      <div class="header-zone">
+        <label for="header-zone-select" class="sr-only">Seleccionar comuna de despacho</label>
+        <select id="header-zone-select" aria-label="Comuna de despacho">
+          <option value="">Verificar comuna de despacho...</option>
+        </select>
+      </div>
+
+      <nav class="header-nav" aria-label="Navegación principal">
+        <button type="button" class="nav-link active" data-view="catalog">Catálogo</button>
+        <button type="button" class="nav-link" data-modal="coldchain">Cadena de Frío</button>
+        <button type="button" class="nav-link" data-modal="legal">Info Legal</button>
+        <button id="open-cart-btn" type="button" class="btn-cart" aria-label="Abrir carrito">
+          Carrito <span id="cart-count" class="badge">0</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Barra de feedback inmediato sobre cobertura térmica -->
+    <div id="zone-feedback-bar" class="zone-feedback hidden" aria-live="polite"></div>
+  </header>
+
+  <main class="container main-content">
+    <!-- ===================================================== -->
+    <!-- PANTALLA 1: INICIO Y CATÁLOGO                         -->
+    <!-- ===================================================== -->
+    <section id="view-catalog" class="view active" aria-label="Catálogo de productos">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="pill-cold">Sello de Cadena de Frío Garantizada (16°C - 18°C)</span>
+          <h1>Chocolatería artesanal de Reñaca, protegida hasta tu puerta</h1>
+          <p>
+            Calcula tu despacho antes de comprar, arma regalos sin mostrar precios y sigue el
+            estado térmico de tu pedido en tiempo real. Sin registro obligatorio.
+          </p>
+          <div class="hero-badges">
+            <span>✓ Compra como invitado</span>
+            <span>✓ Garantía de reposición térmica</span>
+            <span>✓ Stock real actualizado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="catalog-toolbar">
+        <div id="category-filters" class="filter-group" role="tablist" aria-label="Filtrar por categoría"></div>
+        <p id="catalog-summary" class="catalog-summary"></p>
+      </div>
+
+      <div id="catalog-grid" class="product-grid"></div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PANTALLA 2: FICHA DE PRODUCTO                         -->
+    <!-- ===================================================== -->
+    <section id="view-product" class="view hidden" aria-label="Detalle del producto">
+      <button type="button" class="btn-back" data-view="catalog">← Volver al catálogo</button>
+      <div id="product-detail-container"></div>
+
+      <!-- Bloque 3.1.3: Sistema de Recomendación -->
+      <section class="recommendations-section" aria-label="Productos recomendados">
+        <div class="section-head">
+          <h2>También te puede gustar</h2>
+          <span class="tech-tag">Recomendación basada en categoría y co-ocurrencia de pedidos</span>
+        </div>
+        <div id="recommendations-grid" class="product-grid compact"></div>
+      </section>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PANTALLA 3: CARRITO Y COMPRA PARA REGALO (FASE 3)     -->
+    <!-- ===================================================== -->
+    <section id="view-cart" class="view hidden" aria-label="Carrito de compras">
+      <button type="button" class="btn-back" data-view="catalog">← Seguir comprando</button>
+      <div id="cart-container" class="placeholder-panel">
+        <h2>Tu Carrito</h2>
+        <p>El motor interactivo del carrito, calculadora de despacho y modo regalo se activan en la Fase 3.</p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PANTALLA 4: CHECKOUT INVITADO Y LEGAL (FASE 4)        -->
+    <!-- ===================================================== -->
+    <section id="view-checkout" class="view hidden" aria-label="Checkout simulado">
+      <button type="button" class="btn-back" data-view="cart">← Volver al carrito</button>
+      <div id="checkout-container" class="placeholder-panel">
+        <h2>Checkout Simulado</h2>
+        <p>El flujo de compra como invitado y validaciones legales se activan en la Fase 4.</p>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- PANTALLA 5: CONFIRMACIÓN Y TRACKING (FASE 4)          -->
+    <!-- ===================================================== -->
+    <section id="view-confirmation" class="view hidden" aria-label="Confirmación y seguimiento">
+      <div id="confirmation-container" class="placeholder-panel"></div>
+    </section>
+  </main>
+
+  <!-- Modal reutilizable para información legal y cadena de frío -->
+  <div id="info-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Información</h3>
+        <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">✕</button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Toast de notificaciones (ej. compartir enlace o agregar al carrito) -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <!-- Footer con identificación legal (Decreto 6) y atención humana -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>Identificación del Proveedor (Decreto N° 6)</h4>
+        <ul id="footer-supplier-list" class="footer-list"></ul>
+      </div>
+      <div>
+        <h4>Transparencia y Marco Legal</h4>
+        <ul class="footer-list">
+          <li><button type="button" class="link-btn" data-modal="terms">Términos y Condiciones (Ley 19.496)</button></li>
+          <li><button type="button" class="link-btn" data-modal="retracto">Derecho a Retracto y Garantía (Art. 3 bis)</button></li>
+          <li><button type="button" class="link-btn" data-modal="privacy">Política de Privacidad (Ley 19.628 / 21.719)</button></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Atención Humana Directa</h4>
+        <p class="muted">¿Dudas sobre un pedido corporativo o temperatura de despacho? Habla con una persona real.</p>
+        <a id="footer-whatsapp-link" class="btn-outline" target="_blank" rel="noopener noreferrer">
+          Contactar por WhatsApp (Reñaca)
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Prototipo académico desarrollado para E-Commerce (TIEL25) — INACAP Sede Valparaíso. No procesa pagos reales.</p>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
